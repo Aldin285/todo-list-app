@@ -49,7 +49,7 @@ export class TodoList {
   }
 
   Update(id: number, newTitle: string){
-    console.log("Update clicked for item with id : "+id+" to new title : "+newTitle);
+    // console.log("Update clicked for item with id : "+id+" to new title : "+newTitle);
 
     // this.taskService.UpdateTitle(id, newTitle);
 
@@ -58,7 +58,7 @@ export class TodoList {
   }
 
   Delete(id: number){
-    console.log("Delete clicked for item with id : "+id);
+    // console.log("Delete clicked for item with id : "+id);
     // this.taskService.DeleteTask(id);
 
        //Appel du store

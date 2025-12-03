@@ -2,14 +2,16 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { TodoAPIService } from './Features/Services/TodoAPIService/todo-apiservice';
+import { MockApiInterceptor } from './Features/Services/mock-api.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    {provide: HTTP_INTERCEPTORS,useClass: TodoAPIService,multi:true}
+    provideHttpClient(),
+    {provide: HTTP_INTERCEPTORS,useClass: MockApiInterceptor,multi:true}
   ]
 };

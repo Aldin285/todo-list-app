@@ -13,59 +13,60 @@ import { Observable } from 'rxjs';
 })
 export class TodoStore {
   private readonly tasksSubject = new BehaviorSubject<Task[]>([]);
-  tasks$ = this.tasksSubject.asObservable();
-
-  constructor( private apiService: TodoAPIService) {
-    // Initialize store from API's current data
-    // this.apiService.tasks$.pipe(take(1)).subscribe(tasks => this.tasksSubject.next(tasks));
-  }
+  tasks$:Observable<Task[]> = this.tasksSubject.asObservable();
 
   setTasks(tasks: Task[]) {
     this.tasksSubject.next([...tasks]);
   }
 
-  addTask(newTask: CreateTaskDto): Observable<Task>  {
-    const curent = [...this.tasksSubject.value];
-    const task: Task = {
+  addTask(newTask: CreateTaskDto)  {
+//     const curent = [...this.tasksSubject.value];
+    // const task: Task = {
+    //     id: curent.length > 0 ? Math.max(...curent.map(t => t.id)) + 1 : 1,
+    //     nom: newTask.nom,
+    //     status: newTask.status
+    // };
+   
+//    this.tasksSubject.next([...curent, task ]);
+//     // revoir la valeur de retour
+//    return new Observable<Task>(subscriber => {
+//         subscriber.next(task);
+//         subscriber.complete();
+//    });
+    console.log("Adding task in store");
+  const curent = [...this.tasksSubject.getValue()];
+
+   const task: Task = {
         id: curent.length > 0 ? Math.max(...curent.map(t => t.id)) + 1 : 1,
         nom: newTask.nom,
         status: newTask.status
     };
-   
+  
    this.tasksSubject.next([...curent, task ]);
-    // revoir la valeur de retour
-   return new Observable<Task>(subscriber => {
-        subscriber.next(task);
-        subscriber.complete();
-   });
-
   }
 
-  update(id: number, newTitle: string): Observable<Task> {
+  update(id: number, newTitle: string) {
+     console.log("Updating task in store");
     const curent = [...this.tasksSubject.value];
     this.tasksSubject.next(curent.map(t => t.id === id ? { ...t, nom: newTitle } : t));
-    return new Observable<Task>(subscriber => {
-        subscriber.next(this.tasksSubject.value.find(t => t.id === id)!);
-        subscriber.complete();
-   });
+   
   
   }
 
   remove(id: number) {
+    console.log("Removing task in store");
     const curent = [...this.tasksSubject.value];
+    // Renvoie la liste filtrée 
    this.tasksSubject.next(curent.filter(t => t.id !== id));
  
   }
 
-    toggle(id: number): Observable<Task> {
+    toggle(id: number){
+    console.log("Toggling task in store");
     const curent = [...this.tasksSubject.value];
-   this.tasksSubject.next(curent.map(t => t.id === id ? { ...t, status: t.status === TaskStatus.Termine ? TaskStatus.EnCours : TaskStatus.Termine } : t));
+    this.tasksSubject.next(curent.map(t => t.id === id ? { ...t, status: t.status === TaskStatus.Termine ? TaskStatus.EnCours : TaskStatus.Termine } : t));
 
-    return new Observable<Task>(subscriber => {
-        subscriber.next(this.tasksSubject.value.find(t => t.id === id)!);
-        subscriber.complete();
-   });
-  }
+    }
 
 //   update(id: number, newTitle: string): void {
 //    this.taskService.UpdateTitle(id, newTitle).pipe(take(1)).subscribe({
