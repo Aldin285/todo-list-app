@@ -1,0 +1,70 @@
+
+<ul>
+    <li>{{task[0].nom}} ; status: {{task[0].status}}</li>
+    <li>{{task[1].nom}} ; status: {{task[1].status}}</li>
+    <li>{{task[2].nom}} ; status: {{task[2].status}}</li>
+</ul>
+
+<h2>Tableau des taches : </h2>
+
+@for (task of tableauDeTaches; track task) {
+    <li>{{task.nom}} ; status: {{task.status}}</li>
+}@empty {
+    <li>Aucune tâche à réaliser</li>
+}
+<!-- Ex4 -->
+ <h2>Ex4 : </h2>
+ @for (task of tasks2; track task) {
+      <app-todo-item [task]="task" (TaskClick)="Display(task.id)"></app-todo-item>
+  }@empty {
+      <li>Aucune tâche à réaliser</li>
+  }
+
+  <!-- Ex5 -->
+ <h2>Ex5 : </h2>
+  @for (task of serviceTasks; track task) {
+      <app-todo-item [task]="task" (TaskClick)="Display(task.id)"></app-todo-item>
+  }@empty {
+      <li>Aucune tâche à réaliser</li>
+  }
+  
+
+      <!-- Ex6 -->
+ <!-- <h2>Ex6 : </h2>
+  @for (task of tasks$ | async; track task) {
+      <app-todo-item [task]="task"
+       (TaskClick)="Display(task.id)"
+       (ToggleClick)="Toggle(task.id)" 
+       (EditClick)="Update(task.id, 'New name')"
+        (DeleteClick)="Delete(task.id)"
+        ></app-todo-item>
+  }@empty {
+      <li>Aucune tâche à réaliser</li>
+  }
+  <h3>Ajouter une tache : </h3>
+    <input #taskName type="text" placeholder="Nom de la tache"  />
+    <select #statusSelect>
+        <option value={{encours}}>En Cours</option>
+        <option value={{termine}}>Terminé</option>
+    </select>
+    <button (click)="Add({nom: taskName.value, status: $any(statusSelect.value)})">Ajouter une tache</button> -->
+
+        <!-- Ex8 -->
+ <h2>Ex8 : </h2>
+  @for (task of tasksStore$ | async; track task) {
+      <app-todo-item [task]="task"
+       (TaskClick)="Display(task.id)"
+       (ToggleClick)="Toggle(task.id)" 
+       (EditClick)="Update(task.id, 'New name')"
+        (DeleteClick)="Delete(task.id)"
+        ></app-todo-item>
+  }@empty {
+      <li>Aucune tâche à réaliser</li>
+  }
+  <h3>Ajouter une tache : </h3>
+    <input #taskName type="text" placeholder="Nom de la tache"  />
+    <select #statusSelect>
+        <option value={{encours}}>En Cours</option>
+        <option value={{termine}}>Terminé</option>
+    </select>
+    <button (click)="Add({nom: taskName.value, status: $any(statusSelect.value)})">Ajouter une tache</button>
