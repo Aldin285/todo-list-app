@@ -13,9 +13,13 @@ export class TodoService {
   
   constructor(private apiService: TodoAPIService, private todoStore: TodoStore) {}
 
+  GetAllTasks(): Observable<Task[]> {
+    return this.apiService.GetAllTasksApi();
+  }
+
   AddTaskService(newTask: CreateTaskDto) {
-    // Return the API Observable so caller (store or component) can subscribe and update state.
-     this.apiService.AddTaskService(newTask).subscribe(
+    // 
+    this.apiService.AddTaskService(newTask).subscribe(
     ()=>this.todoStore.addTask(newTask)
   );
 }
@@ -29,11 +33,13 @@ export class TodoService {
 
 
   UpdateTitle(id:number, newTitle:string){
-      this.apiService.UpdateTitle(id, newTitle).subscribe(
-        () =>{
-          this.todoStore.update(id, newTitle);
-        }
-      )
+      // this.apiService.UpdateTitle(id, newTitle).subscribe(
+      //   () =>{
+      //     this.todoStore.update(id, newTitle);
+      //   }
+      // )
+
+      this.apiService.UpdateTitleApi(id, newTitle)
     //   .pipe(
     //   tap(()=>this.todoStore.update(id, newTitle))
     // );
@@ -48,7 +54,7 @@ export class TodoService {
   }
 
   DeleteTask(id:number) {
-    // On ne peut pas utiliser le pipe car ça ne routourne rien ( retourne void et pas d'observable )
+    // On ne peut pas utiliser pipe/subscribe car ça ne routourne rien ( retourne void et pas d'observable )
     this.apiService.DeleteTask(id)
     this.todoStore.remove(id);
 

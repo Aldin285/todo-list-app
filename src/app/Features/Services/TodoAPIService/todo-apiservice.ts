@@ -27,6 +27,7 @@ export class TodoAPIService {
   private tasksSubject = new BehaviorSubject<Task[]>([...this.tasks]);
   tasks$ = this.tasksSubject.asObservable();
 
+constructor(private http: HttpClient) {}
 
     // plus utilise car la valeur par défaut est déclarée dans la ligne 24
   GetAllTasks(): Observable<Task[]> {
@@ -34,6 +35,11 @@ export class TodoAPIService {
     // le pipe ?
      return of([...this.tasks]).pipe(delay(300));
   }
+
+  GetAllTasksApi(): Observable<Task[]> {
+     return this.http.get<Task[]>('/api/tasks');
+  }
+
 
   AddTaskService(newTask: CreateTaskDto): Observable<Task> {
 
@@ -52,6 +58,10 @@ export class TodoAPIService {
     return of(task).pipe(delay(300));
   }
 
+  AddTaskServiceApi(newTask: CreateTaskDto): Observable<Task> {
+    return this.http.post<Task>('/api/tasks', newTask);
+  }
+
   UpdateTitle(id:number, newTitle:string): Observable<Task | undefined> {
     const task = this.tasks.find(t => t.id === id);
     if (task) {
@@ -63,6 +73,12 @@ export class TodoAPIService {
 
     return of<Task | undefined>(task).pipe(delay(300));
   }
+
+  UpdateTitleApi(id:number, newTitle:string): Observable<Task> {
+    return this.http.put<Task>(`/api/tasks/${id}`, { nom: newTitle });
+  }
+
+
 
   ToggleStatus(id:number): Observable<Task | undefined> {
     const task = this.tasks.find(t => t.id === id);
@@ -79,6 +95,12 @@ export class TodoAPIService {
     // this.tasksSubject.next([...this.tasks]);
   }
 
+  ToggleStatusApi(id:number): Observable<Task> {
+    return this.http.patch<Task>(`/api/tasks/${id}`, {});
+  }
+
+
+
   DeleteTask(id:number): void {
     this.tasks = this.tasks.filter(t => t.id !== id);
 
@@ -86,6 +108,10 @@ export class TodoAPIService {
     // this.tasksSubject.next([...this.tasks]);
     console.log("Task with id "+id+" deleted.");
     
+  }
+
+  DeleteTaskApi(id:number): Observable<void> {
+    return this.http.delete<void>(`/api/tasks/${id}`);
   }
 
   

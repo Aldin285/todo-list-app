@@ -87,6 +87,11 @@ export class TodoList {
   // ----------------------------------------------------------------------------
   // Ex7+8
   // Injection de dépendances
+
+    // ----------------------------------------------------------------------------
+    // Ex9
+    tasksAPI$ : Observable<Task[]>;
+
   constructor(private taskApiService: TodoAPIService, private taskService: TodoService, private todoStore: TodoStore){
       // On l'utilise plus car on prend les données du store
     // this.tasks$ = this.taskApiService.tasks$;
@@ -99,6 +104,8 @@ export class TodoList {
     {id: 3, nom:'Passer l\'aspirateur', status: TaskStatus.Termine} ,
   ])
 
+  // Ex9
+  this.tasksAPI$ = this.taskService.GetAllTasks();
   }
  
 

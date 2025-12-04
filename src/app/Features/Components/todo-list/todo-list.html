@@ -68,3 +68,23 @@
         <option value={{termine}}>Terminé</option>
     </select>
     <button (click)="Add({nom: taskName.value, status: $any(statusSelect.value)})">Ajouter une tache</button>
+
+    <!-- Ex9 -->
+  <h2>Ex9 : </h2>
+  @for (task of tasksAPI$ | async; track task) {
+      <app-todo-item [task]="task"
+       (TaskClick)="Display(task.id)"
+       (ToggleClick)="Toggle(task.id)" 
+       (EditClick)="Update(task.id, 'New name')"
+        (DeleteClick)="Delete(task.id)"
+        ></app-todo-item>
+  }@empty {
+      <li>Aucune tâche à réaliser</li>
+  }
+  <h3>Ajouter une tache : </h3>
+    <input #taskName type="text" placeholder="Nom de la tache"  />
+    <select #statusSelect>
+        <option value={{encours}}>En Cours</option>
+        <option value={{termine}}>Terminé</option>
+    </select>
+    <button (click)="Add({nom: taskName.value, status: $any(statusSelect.value)})">Ajouter une tache</button>
