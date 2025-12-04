@@ -13,106 +13,116 @@ import { HttpClient } from '@angular/common/http';
 export class TodoAPIService {
   
 // mettre private pour limiter l'accès direct au tableau
-  private tasks: Task[] = [
-    {id: 1, nom:'Sortir la poubelle', status: TaskStatus.EnCours} ,
-    {id: 2, nom:'Faire les courses', status: TaskStatus.Termine} ,
-    {id: 3, nom:'Passer l\'aspirateur', status: TaskStatus.Termine} ,
-  ];
+  // private tasks: Task[] = [
+  //   {id: 1, nom:'Sortir la poubelle', status: TaskStatus.EnCours} ,
+  //   {id: 2, nom:'Faire les courses', status: TaskStatus.Termine} ,
+  //   {id: 3, nom:'Passer l\'aspirateur', status: TaskStatus.Termine} ,
+  // ];
 
-   nextId: number = 4;
+  //  nextId: number = 4;
 
-    // Les deux duo
-    // Ceci permet de créer une copie de la BDD pour éviter que les users modifient directement le tableau original
-    // la valeur par défaut
-  private tasksSubject = new BehaviorSubject<Task[]>([...this.tasks]);
-  tasks$ = this.tasksSubject.asObservable();
+  //   // Les deux duo
+  //   // Ceci permet de créer une copie de la BDD pour éviter que les users modifient directement le tableau original
+  //   // la valeur par défaut
+  // private tasksSubject = new BehaviorSubject<Task[]>([...this.tasks]);
+  // tasks$ = this.tasksSubject.asObservable();
 
 constructor(private http: HttpClient) {}
 
-    // plus utilise car la valeur par défaut est déclarée dans la ligne 24
-  GetAllTasks(): Observable<Task[]> {
-    // important
-    // le pipe ?
-     return of([...this.tasks]).pipe(delay(300));
-  }
+  //   // plus utilise car la valeur par défaut est déclarée dans la ligne 24
+  // GetAllTasks(): Observable<Task[]> {
+  //   // important
+  //   // le pipe ?
+  //    return of([...this.tasks]).pipe(delay(300));
+  // }
 
-  GetAllTasksApi(): Observable<Task[]> {
-     return this.http.get<Task[]>('/api/tasks');
-  }
+ 
 
 
-  AddTaskService(newTask: CreateTaskDto): Observable<Task> {
+  // AddTaskService(newTask: CreateTaskDto): Observable<Task> {
 
-    const task: Task = {
-      id: this.nextId++,
-      nom: newTask.nom,
-      status: newTask.status
-    };
+  //   const task: Task = {
+  //     id: this.nextId++,
+  //     nom: newTask.nom,
+  //     status: newTask.status
+  //   };
     
-    // this.tasks = [...this.tasks, task];
-    this.tasks.push(task);
-    // Notifie les changements aux composants qui font appel au tableau
-    // this.tasksSubject.next([...this.tasks]);
+  //   // this.tasks = [...this.tasks, task];
+  //   this.tasks.push(task);
+  //   // Notifie les changements aux composants qui font appel au tableau
+  //   // this.tasksSubject.next([...this.tasks]);
 
-    // Retourne un observable simulant une requête asynchrone
-    return of(task).pipe(delay(300));
-  }
+  //   // Retourne un observable simulant une requête asynchrone
+  //   return of(task).pipe(delay(300));
+  // }
 
-  AddTaskServiceApi(newTask: CreateTaskDto): Observable<Task> {
-    return this.http.post<Task>('/api/tasks', newTask);
-  }
+  
 
-  UpdateTitle(id:number, newTitle:string): Observable<Task | undefined> {
-    const task = this.tasks.find(t => t.id === id);
-    if (task) {
-      task.nom = newTitle;
+  // UpdateTitle(id:number, newTitle:string): Observable<Task | undefined> {
+  //   const task = this.tasks.find(t => t.id === id);
+  //   if (task) {
+  //     task.nom = newTitle;
+  //   }
+
+  //    // Notifie les changements aux composants qui font appel au tableau
+  //   // this.tasksSubject.next([...this.tasks]);
+
+  //   return of<Task | undefined>(task).pipe(delay(300));
+  // }
+
+
+
+
+  // ToggleStatus(id:number): Observable<Task | undefined> {
+  //   const task = this.tasks.find(t => t.id === id);
+  //   if (task) {
+  //     if (task.status === TaskStatus.Termine) {
+  //       task.status = TaskStatus.EnCours ;
+  //     } else {
+  //       task.status = TaskStatus.Termine ;
+  //     }
+  //   }
+
+  //   return of<Task | undefined>(task).pipe(delay(300));
+  //    // Notifie les changements aux composants qui font appel au tableau
+  //   // this.tasksSubject.next([...this.tasks]);
+  // }
+
+ 
+
+
+
+  // DeleteTask(id:number): void {
+  //   this.tasks = this.tasks.filter(t => t.id !== id);
+
+  //   // Notifie les changements aux composants qui font appel au tableau
+  //   // this.tasksSubject.next([...this.tasks]);
+  //   console.log("Task with id "+id+" deleted.");
+    
+  // }
+
+ 
+// --------------------------------------------------------------
+
+// Serivce API
+
+    GetAllTasksApi(): Observable<Task[]> {
+      return this.http.get<Task[]>('/api/tasks');
     }
 
-     // Notifie les changements aux composants qui font appel au tableau
-    // this.tasksSubject.next([...this.tasks]);
-
-    return of<Task | undefined>(task).pipe(delay(300));
-  }
-
-  UpdateTitleApi(id:number, newTitle:string): Observable<Task> {
-    return this.http.put<Task>(`/api/tasks/${id}`, { nom: newTitle });
-  }
-
-
-
-  ToggleStatus(id:number): Observable<Task | undefined> {
-    const task = this.tasks.find(t => t.id === id);
-    if (task) {
-      if (task.status === TaskStatus.Termine) {
-        task.status = TaskStatus.EnCours ;
-      } else {
-        task.status = TaskStatus.Termine ;
-      }
+    AddTaskServiceApi(newTask: CreateTaskDto): Observable<Task> {
+      return this.http.post<Task>('/api/tasks', newTask);
+    }
+    
+    UpdateTitleApi(id:number, newTitle:string): Observable<Task> {
+      return this.http.put<Task>(`/api/tasks/${id}`, { nom: newTitle });
     }
 
-    return of<Task | undefined>(task).pipe(delay(300));
-     // Notifie les changements aux composants qui font appel au tableau
-    // this.tasksSubject.next([...this.tasks]);
-  }
-
-  ToggleStatusApi(id:number): Observable<Task> {
-    return this.http.patch<Task>(`/api/tasks/${id}`, {});
-  }
-
-
-
-  DeleteTask(id:number): void {
-    this.tasks = this.tasks.filter(t => t.id !== id);
-
-    // Notifie les changements aux composants qui font appel au tableau
-    // this.tasksSubject.next([...this.tasks]);
-    console.log("Task with id "+id+" deleted.");
-    
-  }
-
-  DeleteTaskApi(id:number): Observable<void> {
-    return this.http.delete<void>(`/api/tasks/${id}`);
-  }
-
+    ToggleStatusApi(id:number): Observable<Task> {
+      return this.http.patch<Task>(`/api/tasks/${id}`, {});
+    }
+    DeleteTaskApi(id:number): Observable<void> {
+     return this.http.delete<void>(`/api/tasks/${id}`);
+    }
   
 }

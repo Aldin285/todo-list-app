@@ -1,0 +1,14 @@
+<h1>Ex10: Todo Form</h1>
+<form [formGroup]="taskGroup" (ngSubmit)="taskCreated()">
+    <label>
+        Title : 
+        <input type="text" formControlName="title">
+    </label>
+    <br/>
+    <label>
+        Description : 
+        <input type="text" formControlName="description">
+    </label>
+    <br/>
+    <button type="submit">Créer la tache</button>
+</form>

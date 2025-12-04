@@ -11,43 +11,36 @@ import { TodoStore } from '../../Store/todo-store/todo.store';
 })
 export class TodoService {
   
-  constructor(private apiService: TodoAPIService, private todoStore: TodoStore) {}
+  constructor(private apiService: TodoAPIService, private todoStore: TodoStore) {
+    this.tasks$ = this.todoStore.tasks$;
+  }
 
-  GetAllTasks(): Observable<Task[]> {
-    return this.apiService.GetAllTasksApi();
+   tasks$:Observable<Task[]>;
+
+  GetAllTasks() {
+    
+      this.apiService.GetAllTasksApi().subscribe( 
+      (tasks) => this.todoStore.setTasks(tasks)
+    );
+    console.log("Getting all tasks from API through service");
   }
 
   AddTaskService(newTask: CreateTaskDto) {
-    // 
-    this.apiService.AddTaskService(newTask).subscribe(
-    ()=>this.todoStore.addTask(newTask)
-  );
-}
-
-  // AddTaskService2(newTask: CreateTaskDto): Observable<Task> {
-  //   // Return the API Observable so caller (store or component) can subscribe and update state.
-  //   return this.apiService.AddTaskService(newTask).pipe(
-  //     ()=>this.storeTask.addTask(newTask)
-  //   );
-  // }
-
+      // 
+      this.apiService.AddTaskServiceApi(newTask).subscribe(
+      ()=>this.todoStore.addTask(newTask)
+    );
+  }
 
   UpdateTitle(id:number, newTitle:string){
-      // this.apiService.UpdateTitle(id, newTitle).subscribe(
-      //   () =>{
-      //     this.todoStore.update(id, newTitle);
-      //   }
-      // )
-
-      this.apiService.UpdateTitleApi(id, newTitle)
-    //   .pipe(
-    //   tap(()=>this.todoStore.update(id, newTitle))
-    // );
-    // this.todoStore.update(id, newTitle)
+    
+      this.apiService.UpdateTitleApi(id, newTitle).subscribe(
+        ()=>this.todoStore.update(id, newTitle)
+      );
   }
 
   ToggleStatus(id:number) {
-    this.apiService.ToggleStatus(id).subscribe( 
+    this.apiService.ToggleStatusApi(id).subscribe( 
       ()=>this.todoStore.toggle(id)
     );
     return of(null);
@@ -55,10 +48,9 @@ export class TodoService {
 
   DeleteTask(id:number) {
     // On ne peut pas utiliser pipe/subscribe car ça ne routourne rien ( retourne void et pas d'observable )
-    this.apiService.DeleteTask(id)
-    this.todoStore.remove(id);
-
-    // .pipe(tap(()=>this.taskstore.remove(id)))
+    this.apiService.DeleteTaskApi(id).subscribe( 
+      ()=> this.todoStore.remove(id)
+    );
     return of(null);
   }
 

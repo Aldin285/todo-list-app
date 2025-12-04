@@ -5,6 +5,7 @@ import { TodoItem } from '../todo-item/todo-item';
 import { TodoService } from '../../Services/todo-service/todo-service';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { take } from 'rxjs/operators';
 import { CreateTaskDto } from '../../Models/CreateTaskDto';
 import { TodoAPIService } from '../../Services/TodoAPIService/todo-apiservice';
 import { TodoStore } from '../../Store/todo-store/todo.store';
@@ -44,31 +45,21 @@ export class TodoList {
   
   Toggle(id: number){
     
-    // this.taskService.ToggleStatus(id);
     this.taskService.ToggleStatus(id);
   }
 
   Update(id: number, newTitle: string){
-    // console.log("Update clicked for item with id : "+id+" to new title : "+newTitle);
 
-    // this.taskService.UpdateTitle(id, newTitle);
-
-      //Appel du store
     this.taskService.UpdateTitle(id, newTitle); 
   }
 
   Delete(id: number){
-    // console.log("Delete clicked for item with id : "+id);
-    // this.taskService.DeleteTask(id);
 
-       //Appel du store
     this.taskService.DeleteTask(id); 
   }
 
   Add(newTask : CreateTaskDto){
-    // this.taskService.AddTaskService(newTask);
-
-      //Appel du store
+    
     this.taskService.AddTaskService(newTask);
 
   }
@@ -92,20 +83,14 @@ export class TodoList {
     // Ex9
     tasksAPI$ : Observable<Task[]>;
 
-  constructor(private taskApiService: TodoAPIService, private taskService: TodoService, private todoStore: TodoStore){
+  constructor(private taskService: TodoService){
       // On l'utilise plus car on prend les données du store
     // this.tasks$ = this.taskApiService.tasks$;
+    this.taskService.GetAllTasks();
+    this.tasksStore$ = this.taskService.tasks$;
 
-    this.tasksStore$ = this.todoStore.tasks$;
-
-    this.todoStore.setTasks([
-    {id: 1, nom:'Sortir la poubelle', status: TaskStatus.EnCours} ,
-    {id: 2, nom:'Faire les courses', status: TaskStatus.Termine} ,
-    {id: 3, nom:'Passer l\'aspirateur', status: TaskStatus.Termine} ,
-  ])
-
-  // Ex9
-  this.tasksAPI$ = this.taskService.GetAllTasks();
+    // Ex9: keep an observable reference to the API call if needed
+    this.tasksAPI$ = this.taskService.tasks$;
   }
  
 

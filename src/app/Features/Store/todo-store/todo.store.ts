@@ -12,6 +12,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class TodoStore {
+
+  // private tasks: Task[] = [
+  // {id: 1, nom:'Sortir la poubelle', status: TaskStatus.EnCours} ,
+  // {id: 2, nom:'Faire les courses', status: TaskStatus.Termine} ,
+  // {id: 3, nom:'Passer l\'aspirateur', status: TaskStatus.Termine} ,
+  // ];
+
+  nextId: number = 4;
+
   private readonly tasksSubject = new BehaviorSubject<Task[]>([]);
   tasks$:Observable<Task[]> = this.tasksSubject.asObservable();
 
@@ -20,19 +29,6 @@ export class TodoStore {
   }
 
   addTask(newTask: CreateTaskDto)  {
-//     const curent = [...this.tasksSubject.value];
-    // const task: Task = {
-    //     id: curent.length > 0 ? Math.max(...curent.map(t => t.id)) + 1 : 1,
-    //     nom: newTask.nom,
-    //     status: newTask.status
-    // };
-   
-//    this.tasksSubject.next([...curent, task ]);
-//     // revoir la valeur de retour
-//    return new Observable<Task>(subscriber => {
-//         subscriber.next(task);
-//         subscriber.complete();
-//    });
     console.log("Adding task in store");
   const curent = [...this.tasksSubject.getValue()];
 
