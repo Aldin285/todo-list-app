@@ -1,5 +1,6 @@
 <div class="item">
-    <p>{{task.nom}} - {{task.status}}</p> 
+    <p>{{task.nom}} - {{task.status}} - {{task.description}}</p> 
+    <br/>
     <button (click)="EmitTask()">Détail</button>
     <button (click)="EmitToggle()">Toggle</button>
     <button (click)="EmitEdit()">Modifier</button>

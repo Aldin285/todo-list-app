@@ -14,7 +14,7 @@ export class TodoItem {
   // @Input() titre: string = '';
   // @Input() status: string = '';
 
-  @Input() task: Task = {id:0, nom:'', status: TaskStatus.EnCours};
+  @Input() task: Task = {id:0, nom:'', status: TaskStatus.EnCours, description: ''};
 
   @Output() TaskClick = new EventEmitter();
   @Output() ToggleClick = new EventEmitter();

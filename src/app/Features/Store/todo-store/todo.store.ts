@@ -35,7 +35,8 @@ export class TodoStore {
    const task: Task = {
         id: curent.length > 0 ? Math.max(...curent.map(t => t.id)) + 1 : 1,
         nom: newTask.nom,
-        status: newTask.status
+        status: newTask.status,
+        description: newTask.description
     };
   
    this.tasksSubject.next([...curent, task ]);

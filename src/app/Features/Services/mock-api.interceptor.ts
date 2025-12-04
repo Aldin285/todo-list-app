@@ -12,9 +12,9 @@ import { TaskStatus } from '../Models/tasksEnum';
 export class MockApiInterceptor implements HttpInterceptor {
 
     private tasks: Task[] = [
-        { id: 1, nom: 'Sortir la poubelle', status: TaskStatus.EnCours },
-        { id: 2, nom: 'Faire les courses', status: TaskStatus.Termine },
-        { id: 3, nom: 'Passer l\'aspirateur', status: TaskStatus.Termine },
+        { id: 1, nom: 'Sortir la poubelle', status: TaskStatus.EnCours, description: 'Sortir la poubelle le soir avant 20h' },
+        { id: 2, nom: 'Faire les courses', status: TaskStatus.Termine, description: 'Acheter des fruits et légumes' },
+        { id: 3, nom: 'Passer l\'aspirateur', status: TaskStatus.Termine, description: 'Passer l\'aspirateur dans le salon' },
     ];
 
     private nextId: number = 4;

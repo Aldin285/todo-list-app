@@ -64,8 +64,9 @@
   }
   <h3>Ajouter une tache : </h3>
     <input #taskName type="text" placeholder="Nom de la tache"  />
+    <input #taskDescription type="text" placeholder="Description de la tache"  />
     <select #statusSelect>
         <option value={{encours}}>En Cours</option>
         <option value={{termine}}>Terminé</option>
     </select>
-    <button (click)="Add({nom: taskName.value, status: $any(statusSelect.value)})">Ajouter une tache</button>
+    <button (click)="Add({nom: taskName.value, status: $any(statusSelect.value), description: taskDescription.value})">Ajouter une tache</button>
